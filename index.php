@@ -1,7 +1,6 @@
 <?php
-include "_appsofunctions.php";
-
-echo showHeader();
+    include "_appsofunctions.php";
+    echo showHeader();
 ?>
 <br>
 <a href=docentbeheer.php>inloggen als docent</a>
@@ -10,10 +9,5 @@ echo showHeader();
 <br>
 <input type="button" value="sdfasdf" onclick="test()" />
 <?php
-echo showFooter();
-
-
-
-
+    echo showFooter();
 ?>
-

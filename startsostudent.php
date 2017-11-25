@@ -1,7 +1,6 @@
 <?php
-include "_appsofunctions.php";
-
-echo showHeader();
+    include "_appsofunctions.php";
+    echo showHeader();
 ?>
 <br>
 <a href=index.php>terug</a>
@@ -11,10 +10,5 @@ echo showHeader();
 Start SO Student
 <br>
 <?php
-echo showFooter();
-
-
-
-
+    echo showFooter();
 ?>
-

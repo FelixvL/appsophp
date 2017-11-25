@@ -1,7 +1,6 @@
 <?php
-include "_appsofunctions.php";
-
-echo showHeader();
+    include "_appsofunctions.php";
+    echo showHeader();
 ?>
 <br>
 <a href=index.php>log out</a>
@@ -14,10 +13,5 @@ echo showHeader();
 <br>
 Docent beheer
 <?php
-echo showFooter();
-
-
-
-
+    echo showFooter();
 ?>
-
