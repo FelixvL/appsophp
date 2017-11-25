@@ -1,5 +1,3 @@
-
-
-
-
-vraag student
+function test(){
+    alert("test werkt");
+}
