@@ -1,10 +1,7 @@
 <?php
-include "_appsofunctions.php";
-
-echo showHeader();
+    include "_appsofunctions.php";
+    echo showHeader();
 ?>
-<br>
-<a href=index.php>log out</a>
 <br>
 <a href=docentoverzichtstudent.php>bekijk studenten</a>
 <br>
@@ -14,10 +11,5 @@ echo showHeader();
 <br>
 Docent beheer
 <?php
-echo showFooter();
-
-
-
-
+    echo showFooter();
 ?>
-

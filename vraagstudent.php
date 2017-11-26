@@ -1,7 +1,6 @@
 <?php
-include "_appsofunctions.php";
-
-echo showHeader();
+    include "_appsofunctions.php";
+    echo showHeader();
 ?>
 <br>
 <a href=startsostudent.php>overzicht</a>
@@ -10,13 +9,10 @@ echo showHeader();
 <br>
 <a href=vraagstudent.php>vorige</a>
 <br>
+<textarea onkeyup="voegAntwoordToe()" id="antwoordStudentOpVraag"></textarea>
+
 Vraag Student
 <br>
 <?php
-echo showFooter();
-
-
-
-
+    echo showFooter();
 ?>
-
