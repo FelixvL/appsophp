@@ -11,5 +11,6 @@
 <br>
 Docent beheer
 <?php
+    toonAlleVragen();
     echo showFooter();
 ?>
