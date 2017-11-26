@@ -1,3 +1,3 @@
-function test(){
-    alert("test werkt");
+function voegAntwoordToe(){
+    var antwoord = document.getElementById("antwoordStudentOpVraag").value;
 }

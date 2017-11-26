@@ -1,13 +1,21 @@
 <?php
     include "_appsofunctions.php";
     echo showHeader();
+    if(isset($_SESSION['docentappso'])){
+        if($_SESSION['docentappso'] == 'yes'){
+            header('Location: docentbeheer.php');
+        }
+    }
+    if(isset($_SESSION['studentappso'])){
+        header('Location: startsostudent.php');
+    }
 ?>
 <br>
-<a href=docentbeheer.php>inloggen als docent</a>
-<br>
-<a href=startsostudent.php>inloggen als student</a>
-<br>
-<input type="button" value="sdfasdf" onclick="test()" />
+<form action="startsostudent.php" method="get">
+    Naam: <input type="text" name="naamstudent" />
+    <input type="submit" value="log in" />
+</form>
+Log in als docent door <b>geheim</b> in te voeren in het naamveld.
 <?php
     echo showFooter();
 ?>

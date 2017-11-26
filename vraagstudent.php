@@ -9,6 +9,8 @@
 <br>
 <a href=vraagstudent.php>vorige</a>
 <br>
+<textarea onkeyup="voegAntwoordToe()" id="antwoordStudentOpVraag"></textarea>
+
 Vraag Student
 <br>
 <?php

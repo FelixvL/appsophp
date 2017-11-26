@@ -3,8 +3,6 @@
     echo showHeader();
 ?>
 <br>
-<a href=index.php>log out</a>
-<br>
 <a href=docentoverzichtstudent.php>bekijk studenten</a>
 <br>
 <a href=docentoverzichtantwoord.php>bekijk antwoorden</a>
