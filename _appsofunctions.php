@@ -1,13 +1,11 @@
 <?php
 session_start();
-
-
 function toonAlleVragen(){
     $recordset = getAlleRecordsVanTabel("vraag");
     echo "<table>";
-    echo "<tr><th>vraag</th></tr>";
+    echo "<tr><th>id</th><th>vraag</th></tr>";
     while($row = $recordset->fetch_assoc()){
-        echo "<tr><td>".$row['vraagtekst']."</td></tr>";
+        echo "<tr><td>".$row['id']."</td><td>".$row['vraagtekst']."</td></tr>";
     }
     echo "</table>";
 }
@@ -19,7 +17,6 @@ function getAlleRecordsVanTabel($tabel){
 function voerVraagIn($vraag, $code, $uitleg){
     $conn = connectToDB();
     $sql = "INSERT INTO vraag(`vraagtekst`,`vraagcode`,`vraagtoelichting`) VALUES ('".$vraag."','".$code."','".$uitleg."');";
-    echo $sql;
     $conn->query($sql);
     header('Location: docentbeheer.php');     
 }
