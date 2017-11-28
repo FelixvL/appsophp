@@ -1,5 +1,20 @@
 <?php
 session_start();
+function checkIfAlreadyInserted($table, $vraagid, $studentid){
+    $conn= connectToDB();
+    $sql = "SELECT * FROM $table WHERE student_id = $studentid AND vraag_id = $vraagid;";
+    $result = $conn->query($sql);
+    if($result->num_rows == 0){
+        $sql = "INSERT INTO $table (`student_id`, `vraag_id`) VALUES ($studentid,$vraagid);";
+        $result = $conn->query($sql);
+        checkIfAlreadyInserted($table, $vraagid, $studentid);
+    }else{
+        return $result->fetch_assoc()['id'];
+    }
+}
+function getStudentIdFromName($name){
+    return connectToDB()->query("SELECT * FROM `student` WHERE `naam` = '$name';")->fetch_assoc()['id'];
+}
 function getFieldWithTableNameColumnNameAndId($table, $column, $id){
     return connectToDB()->query("SELECT * FROM $table WHERE id = $id ;")->fetch_assoc()[$column];
 }
@@ -22,7 +37,7 @@ function toonAlleVragen(){
     echo "<table>";
     echo "<tr><th>id</th><th>vraag</th></tr>";
     while($row = $recordset->fetch_assoc()){
-        echo "<tr><td>".$row['id']."</td><td>".$row['vraagtekst']."</td></tr>";
+        echo "<tr><td>".$row['id']."</td><td><a href=vraagstudent.php?vraagnr=".$row['id']." >".$row['vraagtekst']."</a></td></tr>";
     }
     echo "</table>";
 }
