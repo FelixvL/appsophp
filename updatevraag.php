@@ -12,17 +12,6 @@
     
     echo $antwoord;
         
-    function checkIfAlreadyInserted($table, $vraagid, $studentid){
-        $conn= connectToDB();
-        $sql = "SELECT * FROM $table WHERE student_id = $studentid AND vraag_id = $vraagid;";
-        $result = $conn->query($sql);
-        if($result->num_rows == 0){
-            $sql = "INSERT INTO $table (`student_id`, `vraag_id`) VALUES ($studentid,$vraagid);";
-            $result = $conn->query($sql);
-            checkIfAlreadyInserted($table, $vraagid, $studentid);
-        }else{
-            return true;
-        }
-    }
+
 
 
