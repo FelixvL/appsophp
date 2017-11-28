@@ -2,17 +2,19 @@
     include "_appsofunctions.php";
     echo showHeader();
 ?>
-<br>
-<a href=docentbeheer.php>terug</a>
-<br>
-docent overzicht antwoorden
+<a href=docentbeheer.php class="mainvlak">terug</a>
+<br><br>
 <?php
     $recordSet = getAlleRecordsVanTabel("antwoord");
+    echo "<table>";
+    echo "<th>Student</th><th>Vraag</th><th>Antwoord</th>";
     while($row = $recordSet->fetch_assoc()){
-        echo "<br>";
-        echo $row['student_id'];
-        echo $row['vraag_id'];
-        echo $row['antwoordtekst'];
+        echo "<tr title=\"". getFieldWithTableNameColumnNameAndId("vraag", "vraagtekst", $row['vraag_id'])."\n---------\n".getFieldWithTableNameColumnNameAndId("vraag", "vraagcode", $row['vraag_id'])."\">"; 
+        echo "<td>".getFieldWithTableNameColumnNameAndId("student", "naam", $row['student_id'])."</td>";
+        echo "<td>".$row['vraag_id']."</td>";
+        echo "<td>".$row['antwoordtekst']."</td>";
+        echo "</tr>";
     }
+    echo "</table>";
     echo showFooter();
 ?>

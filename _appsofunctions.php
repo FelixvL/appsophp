@@ -1,5 +1,22 @@
 <?php
 session_start();
+function getFieldWithTableNameColumnNameAndId($table, $column, $id){
+    return connectToDB()->query("SELECT * FROM $table WHERE id = $id ;")->fetch_assoc()[$column];
+}
+function toonAlleVragenBeheer(){
+    $recordset = getAlleRecordsVanTabel("vraag");
+    $counter = 1;
+    while($row = $recordset->fetch_assoc()){
+        echo "<div class=vraagbeheer>";
+        echo "<span class=vraagtekstbeheer ><a href=docentinvoervraag.php?editnr=".$row['id']." >".$counter."<sub>(".$row['id'].")</sub>: ".$row['vraagtekst']."</a></span>";
+        echo "<br>";
+        echo "<span class=vraagcodebeheer >".$row['vraagcode']."</span>";
+        echo "<br>";
+        echo "<span class=vraagtoelichtingbeheer >".$row['vraagtoelichting']."</span>";
+        echo "</div>";
+        $counter++;
+    }
+}
 function toonAlleVragen(){
     $recordset = getAlleRecordsVanTabel("vraag");
     echo "<table>";
@@ -14,9 +31,18 @@ function getAlleRecordsVanTabel($tabel){
     $sql = "SELECT * FROM `$tabel`;";
     return $conn->query($sql);
 }
-function voerVraagIn($vraag, $code, $uitleg){
+function getAlleRecordsVanTabelMetId($tabel, $id){
     $conn = connectToDB();
-    $sql = "INSERT INTO vraag(`vraagtekst`,`vraagcode`,`vraagtoelichting`) VALUES ('".$vraag."','".$code."','".$uitleg."');";
+    $sql = "SELECT * FROM `$tabel` WHERE `id`=".$id." ;";
+    return $conn->query($sql);
+}
+function voerVraagIn($vraag, $code, $uitleg, $updatenr){
+    $conn = connectToDB();
+    if($updatenr == 0){
+        $sql = "INSERT INTO vraag(`vraagtekst`,`vraagcode`,`vraagtoelichting`) VALUES ('".$vraag."','".$code."','".$uitleg."');";
+    }else{
+        $sql = "UPDATE `vraag` SET `vraagtekst` = '$vraag', `vraagcode`='$code', `vraagtoelichting` = '$uitleg' WHERE `id`=$updatenr ;";    
+    }
     $conn->query($sql);
     header('Location: docentbeheer.php');     
 }
@@ -48,7 +74,7 @@ $returnString = <<<HEADSTRING
         <script src="_appsojs.js"></script>
     </head>
     <body>
-        <a href=logout.php >log out</a>
+        <a href=logout.php class="mainvlakred">log out</a>
 
 HEADSTRING;
     return $returnString;

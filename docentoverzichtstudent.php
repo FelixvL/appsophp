@@ -2,14 +2,12 @@
     include "_appsofunctions.php";
     echo showHeader();
 ?>
-<br>
-<a href=docentbeheer.php>terug</a>
-<br>
-docent overzicht student
+<a href=docentbeheer.php class="mainvlak">terug</a>
+<br><br>
 <?php
     $recordset = getAlleRecordsVanTabel("student");
     while($row = $recordset->fetch_assoc()){
-        echo $row['naam']."(".$row['id'].")";
+        echo "<span>".$row['naam']."(".$row['id'].")</span>";
         echo "<br>";
     }
     echo showFooter();

@@ -1,3 +1,53 @@
+a.mainvlak{
+    padding : 8px;
+    background-color: blue;
+    float: left;
+}
 a{
+    color:black;
+    text-decoration: none;    
+}
+a.mainvlakred{
+    padding : 8px;
     background-color: red;
+    float: right;
+}
+a.mainvlak:hover{
+    background-color: aqua;
+}
+.menup:after{
+    display:block;
+    background-color:yellow;
+    clear: both;
+}
+div > span {
+    padding:8px;
+    display:inline-block;
+}
+div.vraagbeheer{
+    background-color: orange;
+    margin : 4px;
+    padding : 2px;
+}
+span{
+    background-color:pink;
+    padding:5px;
+    display:inline-block;
+    margin: 2px;
+}
+span.vraagtekstbeheer{
+    margin:0px;
+    background-color: green;
+}
+span.vraagcodebeheer{
+    margin:0px;
+    background-color: red;
+}
+span.vraagtoelichtingbeheer{
+    margin:0px;
+    background-color: gray;
+}
+table td, th{
+    padding : 2px;
+    background-color:lightgray;
 }

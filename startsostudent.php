@@ -5,16 +5,10 @@
     }
     echo showHeader();
 ?>
-<br>
-<a href=index.php>terug</a>
-<br>
-<a href=vraagstudent.php>ga naar vraag</a>
-<br>
-Start SO Student
+<a href=index.php class="mainvlak">terug</a>
+<a href=vraagstudent.php class="mainvlak">ga naar vraag</a>
+<br><br>
 <?php
-    echo "Welkom: ".$_SESSION['studentappso'];;
-?>
-<br>
-<?php
+    toonAlleVragen();
     echo showFooter();
 ?>
