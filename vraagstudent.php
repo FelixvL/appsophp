@@ -1,8 +1,14 @@
 <?php
     include "_appsofunctions.php";
-    echo showHeader();
+    echo showHeader();    
+    
+    
     $vraagnr = $_REQUEST['vraagnr'];
-    $antwoordid = checkIfAlreadyInserted("antwoord", $vraagnr, getStudentIdFromName($_SESSION['studentappso']));
+    $studentnr = getStudentIdFromName($_SESSION['studentappso']);
+    
+    $vraagToner = new VraagToner($studentnr, $vraagnr, connectToDB());
+    
+    $antwoordid = checkIfAlreadyInserted("antwoord", $vraagToner->vraag_id, getStudentIdFromName($_SESSION['studentappso']));
     if($antwoordid == null){
         header('Location: vraagstudent.php?vraagnr='.$vraagnr);     
  
@@ -13,11 +19,11 @@
 <a href=vraagstudent.php?vraagnr=<?php echo ($vraagnr+1); ?> class="mainvlak">volgende</a>
 <br><br>
 <input type="hidden" id="vraagid" value="<?php echo $vraagnr; ?>">
-<input type="hidden" id="studentid" value="<?php echo getStudentIdFromName($_SESSION['studentappso']); ?>">
+<input type="hidden" id="studentid" value="<?php echo $studentnr; ?>">
 <?php
-echo getFieldWithTableNameColumnNameAndId("vraag", "vraagtekst", $vraagnr);
+echo $vraagToner->vraagtekst;
 echo "<br>";
-echo getFieldWithTableNameColumnNameAndId("vraag", "vraagcode", $vraagnr);
+echo $vraagToner->vraagcode;
 echo "<br>";
 ?>
 <textarea onkeyup="voegAntwoordToe()" id="antwoordStudentOpVraag">

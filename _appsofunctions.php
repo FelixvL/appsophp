@@ -1,5 +1,35 @@
 <?php
 session_start();
+
+class VraagToner{
+    private $conn;
+    public $vraag_id;
+    public $vraagtekst;
+    public $vraagcode;
+    public $student_id;
+    public $studentnaam;
+    public $volgendevraag;
+    public $vorigevraag;
+    public function __construct($studentid, $vraagid, $conn) {
+        $this->vraag_id = $vraagid;
+        $this->student_id = $studentid;
+        $this->conn = $conn;
+        $this->loadVraag($vraagid);
+    }
+    private function loadVraag($vraagid){
+        $recordSet = $this->conn->query("SELECT * FROM `vraag` WHERE `id` = '$vraagid';");
+        $row = $recordSet->fetch_assoc();
+        $this->vraagtekst = $row['vraagtekst'];
+        $this->vraagcode = $row['vraagcode'];
+    }
+}
+
+
+
+
+
+
+
 function checkIfAlreadyInserted($table, $vraagid, $studentid){
     $conn= connectToDB();
     $sql = "SELECT * FROM $table WHERE student_id = $studentid AND vraag_id = $vraagid;";

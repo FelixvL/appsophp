@@ -6,7 +6,7 @@
     echo showHeader();
 ?>
 <a href=index.php class="mainvlak">terug</a>
-<a href=vraagstudent.php class="mainvlak">ga naar vraag</a>
+<a href=vraagstudent.php?vraagnr=1 class="mainvlak">start</a>
 <br><br>
 <?php
     toonAlleVragen();
