@@ -16,3 +16,18 @@ function voegAntwoordToe(){
     xhttp.open("POST", "updatevraag.php", true);
     xhttp.send(data);
 }
+function deletestudent(id){
+    doAjax('deleterecord.php', '?table=student&columnname=id&idvalue='+id);
+    doAjax('deleterecord.php', '?table=antwoord&columnname=student_id&idvalue='+id);
+    document.location = 'docentoverzichtstudent.php';
+}
+function doAjax(phpPage, urlExtend){
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(xhttp.responseText);
+        }
+    };
+    xhttp.open("GET", phpPage+""+urlExtend, true);
+    xhttp.send();    
+}
