@@ -5,7 +5,7 @@
 <a href=docentbeheer.php class="mainvlak">terug</a>
 <br><br>
 <?php
-    $recordset = getAlleRecordsVanTabel("student");
+    $recordset = getAlleRecordsVanTabel("fe_student");
     while($row = $recordset->fetch_assoc()){
         echo "<span>".$row['naam']."(".$row['id'].")</span><span onclick=deletestudent('".$row['id']."') >delete</span>";
         echo "<br>";

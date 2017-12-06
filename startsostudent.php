@@ -3,6 +3,10 @@
     if(isset($_GET['naamstudent'])){
         inloggenStudentOfDocent($_GET['naamstudent']);
     }
+$conn = connectToDB();
+$configuratie = new Configuratie($conn);
+if($configuratie->getExamenTonen()){
+
     echo showHeader();
 ?>
 <a href=index.php class="mainvlak">terug</a>
@@ -11,4 +15,8 @@
 <?php
     toonAlleVragen();
     echo showFooter();
+    
+}else{
+    echo "wacht op examen";
+}
 ?>

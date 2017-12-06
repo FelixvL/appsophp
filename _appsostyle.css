@@ -21,8 +21,6 @@ a.mainvlak:hover{
     clear: both;
 }
 div > span {
-    padding:8px;
-    display:inline-block;
 }
 div.vraagbeheer{
     background-color: orange;
@@ -30,10 +28,6 @@ div.vraagbeheer{
     padding : 2px;
 }
 span{
-    background-color:pink;
-    padding:5px;
-    display:inline-block;
-    margin: 2px;
 }
 span.vraagtekstbeheer{
     margin:0px;
@@ -48,6 +42,9 @@ span.vraagtoelichtingbeheer{
     background-color: gray;
 }
 table td, th{
-    padding : 2px;
     background-color:lightgray;
+}
+textarea{
+    width:90%;
+    height:100px;
 }

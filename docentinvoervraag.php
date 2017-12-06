@@ -6,7 +6,7 @@
     }
     if(isset($_REQUEST['editnr'])){
         $id = $_REQUEST['editnr'];
-        $recordSet = getAlleRecordsVanTabelMetId("vraag", $id);
+        $recordSet = getAlleRecordsVanTabelMetId("fe_vraag", $id);
         $row = $recordSet->fetch_assoc();
         $vraagtekst = $row['vraagtekst'];
         $vraagcode = $row['vraagcode'];
@@ -17,24 +17,58 @@
         $vraagcode = "";
         $vraagtoelichting = "";
     }
+    function toonVeldInvoer($veldnaam){
+        return "<textarea id=$veldnaam onKeyUp=voegtoe('$veldnaam') onKeyDown=catchTab(event,'$veldnaam')>";
+    }
 ?>
+<script>
+    var actiefveld = '';
+    function voegtoe(elemname){
+        vraagid = $("#antwoordid").val();
+        vraagtekst = $("#vraag").val();
+        vraagcode = $("#code").val();
+        vraagtoelichting = $("#toelichting").val();
+	$.post( 'docentupdatevraag.php' ,{ 
+          vraagid:vraagid, 
+          vraagtekst:vraagtekst,
+          vraagcode:vraagcode,
+          vraagtoelichting: vraagtoelichting
+	}, function( data ) {
+            if(data == 'insert'){
+                document.location = 'docentbeheer.php';
+            }
+//	  $( "#result" ).html( data );
+          document.getElementById(actiefveld).focus();
+	});	
+    }
+
+    
+</script>
 <a href=docentbeheer.php class="mainvlak">terug</a>
 <br><br>
-<form action="docentinvoervraag.php" action="post">
 Vraag
 <br>
-<textarea name="vraag"><?php echo $vraagtekst; ?></textarea>
+<?php 
+    echo toonVeldInvoer("vraag"); 
+    echo $vraagtekst; 
+?></textarea>
 <br>
 Code
 <br>
-<textarea name="code"><?php echo $vraagcode; ?></textarea>
+<?php 
+    echo toonVeldInvoer("code");  
+    echo $vraagcode; 
+?></textarea>
 <br>
 Toelichting
 <br>
-<textarea name="toelichting"><?php echo $vraagtoelichting; ?></textarea>
-<input type="hidden" name="id" value="<?php echo $id; ?>" >
-<input type="submit" value="voegtoe">
-</form>
+<?php 
+    echo toonVeldInvoer("toelichting"); 
+    echo $vraagtoelichting; 
+?></textarea>
+<input type="text" value="connected" id="irrelevantjustfortab" onKeyUp=document.getElementById('toelichting').focus()>
+<input type="hidden" name="id" id=antwoordid value="<?php echo $id; ?>" >
+<div id="result">result</div>
 <?php
     echo showFooter();
 ?>

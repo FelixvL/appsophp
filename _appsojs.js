@@ -1,24 +1,34 @@
-function voegAntwoordToe(){
-    var antwoord = document.getElementById("antwoordStudentOpVraag").value;
-    var vraagid = document.getElementById("vraagid").value;
-    var studentid = document.getElementById("studentid").value;
-    var data = new FormData();
-    data.append('antwoord', antwoord);
-    data.append('vraagid', vraagid);
-    data.append('studentid', studentid); 
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            // Typical action to be performed when the document is ready:
-            document.getElementById("invoerstudent").innerHTML = xhttp.responseText;
-        }
-    };
-    xhttp.open("POST", "updatevraag.php", true);
-    xhttp.send(data);
-}
+    function catchTab(e, elemname){
+        actiefveld = elemname;
+	var keyCode;
+	keyCode = e.which;
+	if(keyCode == 9){
+		//document.getElementById("errorLog").innerHTML = "hallo"+keyCode;
+		var cursor = $("#"+elemname).prop("selectionStart");
+		var alldata = document.getElementById(elemname).value;
+		document.getElementById(elemname).value = alldata.substring(0 , cursor) + '\t' + alldata.substring(cursor , alldata.length);
+		setCaretPosition(document.getElementById(elemname), cursor + 1);
+                //alert(actiefveld);
+                document.getElementById(actiefveld).focus();
+	}
+    }
+    function setCaretPosition(ctrl, pos){
+	if(ctrl.setSelectionRange){
+		ctrl.focus();
+		ctrl.setSelectionRange(pos, pos);	
+	}	else if (ctrl.createTextRange()){
+			range.collapse(true);
+			range.moveEnd('character', pos);
+			range.moveStart('character', pos);
+			range.select();
+	}
+    }
+    function provideFocus(){
+        document.getElementById('antwoordStudentOpVraag').focus();
+    }
 function deletestudent(id){
-    doAjax('deleterecord.php', '?table=student&columnname=id&idvalue='+id);
-    doAjax('deleterecord.php', '?table=antwoord&columnname=student_id&idvalue='+id);
+    doAjax('deleterecord.php', '?table=fe_student&columnname=id&idvalue='+id);
+    doAjax('deleterecord.php', '?table=fe_antwoord&columnname=student_id&idvalue='+id);
     document.location = 'docentoverzichtstudent.php';
 }
 function doAjax(phpPage, urlExtend){
