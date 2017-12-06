@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+include "geheim/geheim.php";
 include "_classes.php";
 
 
@@ -100,11 +100,7 @@ function loginStudent($studentNaam){
     $conn->close();
     header('Location: index.php'); 
 }
-function connectToDB(){
-    $conn = new mysqli("localhost","root","","appsophp");
-//    $conn = new mysqli("localhost","phpzwollegen1","itphtoren","phpzwollegen2");
-    return $conn;
-}
+
 function showHeader(){
 $returnString = <<<HEADSTRING
 <html>
