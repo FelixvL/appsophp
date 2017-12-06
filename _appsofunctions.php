@@ -1,29 +1,7 @@
 <?php
 session_start();
 
-class VraagToner{
-    private $conn;
-    public $vraag_id;
-    public $vraagtekst;
-    public $vraagcode;
-    public $student_id;
-    public $studentnaam;
-    public $volgendevraag;
-    public $vorigevraag;
-    public function __construct($studentid, $vraagid, $conn) {
-        $this->vraag_id = $vraagid;
-        $this->student_id = $studentid;
-        $this->conn = $conn;
-        $this->loadVraag($vraagid);
-    }
-    private function loadVraag($vraagid){
-        $recordSet = $this->conn->query("SELECT * FROM `vraag` WHERE `id` = '$vraagid';");
-        $row = $recordSet->fetch_assoc();
-        $this->vraagtekst = $row['vraagtekst'];
-        $this->vraagcode = $row['vraagcode'];
-    }
-}
-
+include "_classes.php";
 
 
 
@@ -37,19 +15,27 @@ function checkIfAlreadyInserted($table, $vraagid, $studentid){
     if($result->num_rows == 0){
         $sql = "INSERT INTO $table (`student_id`, `vraag_id`) VALUES ($studentid,$vraagid);";
         $result = $conn->query($sql);
+        $conn->close();
         checkIfAlreadyInserted($table, $vraagid, $studentid);
     }else{
+        $conn->close();
         return $result->fetch_assoc()['id'];
     }
 }
 function getStudentIdFromName($name){
-    return connectToDB()->query("SELECT * FROM `student` WHERE `naam` = '$name';")->fetch_assoc()['id'];
+    $conn = connectToDB();
+    $resultSet = $conn->query("SELECT * FROM `fe_student` WHERE `naam` = '$name';");
+    $conn->close();
+    return $resultSet->fetch_assoc()['id'];
 }
 function getFieldWithTableNameColumnNameAndId($table, $column, $id){
-    return connectToDB()->query("SELECT * FROM $table WHERE id = $id ;")->fetch_assoc()[$column];
+    $conn = connectToDB();
+    $resultSet = $conn->query("SELECT * FROM $table WHERE id = $id ;");
+    $conn->close();
+    return $resultSet->fetch_assoc()[$column];
 }
 function toonAlleVragenBeheer(){
-    $recordset = getAlleRecordsVanTabel("vraag");
+    $recordset = getAlleRecordsVanTabel("fe_vraag");
     $counter = 1;
     while($row = $recordset->fetch_assoc()){
         echo "<div class=vraagbeheer>";
@@ -63,7 +49,7 @@ function toonAlleVragenBeheer(){
     }
 }
 function toonAlleVragen(){
-    $recordset = getAlleRecordsVanTabel("vraag");
+    $recordset = getAlleRecordsVanTabel("fe_vraag");
     echo "<table>";
     echo "<tr><th>id</th><th>vraag</th></tr>";
     while($row = $recordset->fetch_assoc()){
@@ -74,23 +60,29 @@ function toonAlleVragen(){
 function getAlleRecordsVanTabel($tabel){
     $conn = connectToDB();
     $sql = "SELECT * FROM `$tabel`;";
-    return $conn->query($sql);
+    $resultSet = $conn->query($sql);
+    $conn->close();
+    return $resultSet;
+}
+function getAlleRecordsVanTabelOrderBy($tabel, $orderby){
+    $conn = connectToDB();
+    $sql = "SELECT * FROM `$tabel` ORDER BY $orderby;";
+    $resultSet = $conn->query($sql);
+    $conn->close();
+    return $resultSet;
+    
 }
 function getAlleRecordsVanTabelMetId($tabel, $id){
     $conn = connectToDB();
     $sql = "SELECT * FROM `$tabel` WHERE `id`=".$id." ;";
-    return $conn->query($sql);
+    $resultSet = $conn->query($sql);
+    $conn->close();
+    return $resultSet;
 }
-function voerVraagIn($vraag, $code, $uitleg, $updatenr){
-    $conn = connectToDB();
-    if($updatenr == 0){
-        $sql = "INSERT INTO vraag(`vraagtekst`,`vraagcode`,`vraagtoelichting`) VALUES ('".$vraag."','".$code."','".$uitleg."');";
-    }else{
-        $sql = "UPDATE `vraag` SET `vraagtekst` = '$vraag', `vraagcode`='$code', `vraagtoelichting` = '$uitleg' WHERE `id`=$updatenr ;";    
-    }
-    $conn->query($sql);
-    header('Location: docentbeheer.php');     
+function encodeDBtekst($input, $conn){
+    return $conn->real_escape_string($input);
 }
+
 function inloggenStudentOfDocent($inlogString){
     if($inlogString == "geheim"){
         $_SESSION['docentappso'] = 'yes';
@@ -102,13 +94,15 @@ function inloggenStudentOfDocent($inlogString){
 }
 function loginStudent($studentNaam){
     $conn = connectToDB();
-    $sql = "INSERT INTO student(`naam`) VALUES ('".$studentNaam."');";
+    $sql = "INSERT INTO fe_student(`naam`) VALUES ('".$studentNaam."');";
     echo $sql;
     $conn->query($sql);
+    $conn->close();
     header('Location: index.php'); 
 }
 function connectToDB(){
     $conn = new mysqli("localhost","root","","appsophp");
+//    $conn = new mysqli("localhost","phpzwollegen1","itphtoren","phpzwollegen2");
     return $conn;
 }
 function showHeader(){
@@ -117,6 +111,7 @@ $returnString = <<<HEADSTRING
     <head>
         <link rel="stylesheet" type="text/css" href="_appsostyle.css">
         <script src="_appsojs.js"></script>
+        <script src="jquery-1.11.3.min.js"></script>
     </head>
     <body>
         <a href=logout.php class="mainvlakred">log out</a>
@@ -128,4 +123,13 @@ function showFooter(){
     $returnString = "\t</body>\n";
     $returnString .= "</html>";
     return $returnString;
+}
+
+function printphpcode($data){
+	$alldata = $data;	
+	$alldata = str_replace("<" , "&lt;", $alldata); 
+	$alldata = str_replace("\n" , "<br/>\n", $alldata); 
+	$alldata = str_replace("\t" , "<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>", $alldata); 
+	$alldata = str_replace(" " , "<span>&nbsp;</span>", $alldata); 
+	return $alldata;
 }
