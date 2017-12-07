@@ -57,10 +57,13 @@ function myfocus(){
 <input type="hidden" id="vraagid" value="<?php echo $vraagnr; ?>">
 <input type="hidden" id="studentid" value="<?php echo $studentnr; ?>">
 <?php
-
+echo "<div class=vraagstudent>";
 echo printphpcode($vraagToner->vraagtekst);
+echo "</div>";
 echo "<br>";
+echo "<div class=codestudent>";
 echo printphpcode($vraagToner->vraagcode);
+echo "</div>";
 echo "<br>";
 ?>
 <textarea onkeyup="beantwoordvraag()" onblur="myfocus()" id="antwoordStudentOpVraag" onKeyDown=catchTab(event,'antwoordStudentOpVraag')>
@@ -72,11 +75,14 @@ echo "<br>";
 <br>
 <div id="result"></div>
 <?php
+    echo "<div class=uitlegstudent>";
+
     if($configuratie->getToonUitleg()){
         echo printphpcode($vraagToner->vraaguitleg);
     }else{
         echo "nog geen uitleg";
     }
+    echo "</div>";
     echo showFooter();
 }else{
     echo "wacht op examen";

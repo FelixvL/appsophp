@@ -39,11 +39,11 @@ function toonAlleVragenBeheer(){
     $counter = 1;
     while($row = $recordset->fetch_assoc()){
         echo "<div class=vraagbeheer>";
-        echo "<span class=vraagtekstbeheer ><a href=docentinvoervraag.php?editnr=".$row['id']." >".$counter."<sub>(".$row['id'].")</sub>: ".$row['vraagtekst']."</a></span>";
+        echo "<span class=vraagtekstbeheer ><a href=docentinvoervraag.php?editnr=".$row['id']." >".$counter."<sub>(".$row['id'].")</sub>: ".printphpcode($row['vraagtekst'])."</a></span>";
         echo "<br>";
-        echo "<span class=vraagcodebeheer >".$row['vraagcode']."</span>";
+        echo "<span class=vraagcodebeheer >".printphpcode($row['vraagcode'])."</span>";
         echo "<br>";
-        echo "<span class=vraagtoelichtingbeheer >".$row['vraagtoelichting']."</span>";
+        echo "<span class=vraagtoelichtingbeheer >".printphpcode($row['vraagtoelichting'])."</span>";
         echo "</div>";
         $counter++;
     }
@@ -84,7 +84,7 @@ function encodeDBtekst($input, $conn){
 }
 
 function inloggenStudentOfDocent($inlogString){
-    if($inlogString == "geheim"){
+    if($inlogString == "NextProgram"){
         $_SESSION['docentappso'] = 'yes';
         header('Location: docentbeheer.php');  
     }else{
